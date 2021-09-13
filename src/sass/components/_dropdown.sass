@@ -1,0 +1,95 @@
+.dropdown
+    display: flex
+    position: relative
+    width: 100%
+    height: 100%
+
+    .btn
+        width: 100%
+
+    &--right
+        .dropdown__list
+            top: auto
+            left: 100%
+            margin: 0 0 0 10px
+            transform: translateX(10%)
+
+            &--open
+                transform: translateX(0%)
+
+            &:after
+                content: ''
+                position: absolute
+                top: 20px
+                left: -10px
+                border-style: solid
+                border-width: 10px 10px 10px 0
+                border-color: transparent rgba(0, 0, 0, 0.9) transparent transparent
+            
+            &:hover
+                transform: translateX(0%)
+
+.dropdown__list
+    position: absolute
+    top: 100%
+    background: rgba(0, 0, 0, 0.9)
+    display: flex
+    flex-direction: column
+    list-style: none
+    border-radius: 8px
+    padding: 0
+    margin: 10px 0 0
+    opacity: 0
+    transform: translateY(10%)
+    pointer-events: none
+    backdrop-filter: blur(15px)
+    transition: all 300ms ease
+
+    &--open
+        opacity: 1
+        transform: translateY(0%)
+        pointer-events: all
+
+    &:after
+        content: ''
+        position: absolute
+        top: -10px
+        left: 20px
+        width: 0
+        height: 0
+        border-style: solid
+        border-width: 0 10px 10px 10px
+        border-color: transparent transparent rgba(0, 0, 0, 0.9) transparent
+        backdrop-filter: blur(15px)
+
+.dropdown__item
+    position: relative
+    display: flex
+    flex-direction: column
+    white-space: nowrap
+    padding: 8px 12px
+
+    &:not(:last-child):after
+        content: ''
+        position: absolute
+        bottom: 0
+        width: 80%
+        height: 1px
+        align-self: center
+        background: transparentize($cor-bege-300, 0.5)
+
+.dropdown__link
+    color: $cor-bege-300
+    text-decoration: none
+    border-radius: 8px
+    padding: 5px 30px
+    transition: all 150ms ease
+
+    &:hover
+        background: $cor-preto-300
+
+.dropdown__title h2
+    color: $cor-azul-500
+    font-size: 20px
+    text-align: center
+    margin: 10px 0 0

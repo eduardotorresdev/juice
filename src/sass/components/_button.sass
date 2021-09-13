@@ -1,0 +1,41 @@
+.btn
+    background-color: $cor-bege-300
+    color: $cor-azul-500
+    font-size: 22px
+    border: 0
+    padding: 5px 20px
+    border-radius: 10px
+    cursor: pointer
+    transition: all 150ms ease
+
+    &:hover
+        background-color: $cor-azul-500
+        color: $cor-bege-300
+
+.btn--secondary
+    background-color: $cor-azul-400
+    color: $cor-cinza-400
+
+    &:hover
+        background-color: $cor-cinza-400
+        color: $cor-azul-400
+
+.btn--third
+    background: linear-gradient(180deg, $cor-azul-600 50%, $cor-azul-400 90%)
+    background-size: 100% 200%
+    background-position: bottom center
+    color: $cor-cinza-400
+    transition: all 300ms ease
+
+    &:hover
+        color: $cor-cinza-400
+        background-position: top center
+
+.btn--active 
+    @extend .btn--secondary
+    background-color: $cor-azul-500
+    box-shadow: 0 0 20px 5px transparentize($cor-azul-500, 0.3)
+
+    &:hover
+        background-color: $cor-azul-500
+        color: $cor-cinza-400

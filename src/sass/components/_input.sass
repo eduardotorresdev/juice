@@ -1,0 +1,30 @@
+.input
+    background: rgba(255, 255, 255, 0.6)
+    width: 100%
+    border: 2px solid transparent
+    text-align: center
+    font-size: 16px
+    color: $cor-preto-500
+    padding: 10px 10px 10px 30px
+    box-sizing: border-box
+    border-radius: 8px
+    transition: all 150ms ease
+
+.input:focus
+    outline: none
+    border-color: $cor-azul-500
+
+.input__group
+    display: flex
+    align-items: center
+    position: relative
+
+    label
+        position: absolute
+        left: 10px
+        font-size: 20px
+        color: $cor-cinza-300
+
+.input[disabled="disabled"]
+    pointer-events: none
+    opacity: 0.5
