@@ -74,21 +74,22 @@ async function init(): Promise<any> {
             zFar,
         );
 
-        const cameraPosition = [0, 0, 50];
+        let cameraPosition = [0, 0, 30];
 
-        const up = [0, 1, 0];
+        const up = [1, 1, 0];
         // Compute the camera's matrix using look at.
-        const cameraMatrix = m4.lookAt(cameraPosition, cameraTarget, up);
-
+        let cameraMatrix = m4.lookAt(cameraPosition, cameraTarget, up);
+        
         // Make a view matrix from the camera matrix.
         let view = m4.inverse(cameraMatrix);
 
+        view = m4.multiply(view, m4.translate(view, 0, 0, 0));
         view = m4.multiply(view, m4.xRotation(rotationX));
         view = m4.multiply(view, m4.yRotation(rotationY));
         view = m4.multiply(view, m4.zRotation(rotationZ));
 
         const sharedUniforms = {
-            u_lightDirection: m4.normalize([5, 3, 5]),
+            u_lightDirection: m4.normalize([0, 10, 5]),
             u_view: view,
             u_projection: projection,
         };
@@ -98,7 +99,7 @@ async function init(): Promise<any> {
         webglUtils.setUniforms(meshProgramInfo, sharedUniforms);
         webglUtils.setBuffersAndAttributes(webgl, meshProgramInfo, bufferInfo);
         webglUtils.setUniforms(meshProgramInfo, {
-            u_world: m4.zRotation(0),
+            u_world: m4.translate(m4.yRotation(1.57), 0, 18, 0),
             u_diffuse: [1, 1, 1, 1],
         });
         webglUtils.drawBufferInfo(webgl, bufferInfo);
