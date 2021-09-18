@@ -79,27 +79,27 @@ async function init(): Promise<any> {
     const faceInfos = (filename = 'texturaMetal.jpg') => [
         {
             target: webgl.TEXTURE_CUBE_MAP_POSITIVE_X,
-            url: `http://localhost:3000/public/img/${filename}`,
+            url: `/public/img/${filename}`,
         },
         {
             target: webgl.TEXTURE_CUBE_MAP_NEGATIVE_X,
-            url: `http://localhost:3000/public/img/${filename}`,
+            url: `/public/img/${filename}`,
         },
         {
             target: webgl.TEXTURE_CUBE_MAP_POSITIVE_Y,
-            url: `http://localhost:3000/public/img/${filename}`,
+            url: `/public/img/${filename}`,
         },
         {
             target: webgl.TEXTURE_CUBE_MAP_NEGATIVE_Y,
-            url: `http://localhost:3000/public/img/${filename}`,
+            url: `/public/img/${filename}`,
         },
         {
             target: webgl.TEXTURE_CUBE_MAP_POSITIVE_Z,
-            url: `http://localhost:3000/public/img/${filename}`,
+            url: `/public/img/${filename}`,
         },
         {
             target: webgl.TEXTURE_CUBE_MAP_NEGATIVE_Z,
-            url: `http://localhost:3000/public/img/${filename}`,
+            url: `/public/img/${filename}`,
         },
     ];
 
