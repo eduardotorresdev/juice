@@ -18,6 +18,9 @@
     <meta property="og:site_name" content="pudding" />
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://pudding.eduardotorres.dev">
+    <script src="https://webglfundamentals.org/webgl/resources/webgl-utils.js"></script>
+    <script src="https://webglfundamentals.org/webgl/resources/m4.js"></script>
+
 </head>
 
 <body>
@@ -29,6 +32,32 @@
                 <header class="header">
                     <h1 class="title">Juice</h1>
                 </header>
+                <section class="toolbar">
+                    <div class="form__group">
+                        <label>Rotação X da câmera</label>
+                        <div class="slider">
+                            <input type="range" id="camera__rotation-x" class="slider__input" min="0" max="360" value="0" autocomplete="off">
+                            <div class="slider__marker"></div>
+                            <div class="slider__progress"></div>
+                        </div>
+                    </div>
+                    <div class="form__group">
+                        <label>Rotação Y da câmera</label>
+                        <div class="slider">
+                            <input type="range" id="camera__rotation-y" class="slider__input" min="0" max="360" value="0" autocomplete="off">
+                            <div class="slider__marker"></div>
+                            <div class="slider__progress"></div>
+                        </div>
+                    </div>
+                    <div class="form__group">
+                        <label>Rotação Z da câmera</label>
+                        <div class="slider">
+                            <input type="range" id="camera__rotation-z" class="slider__input" min="0" max="360" value="0" autocomplete="off">
+                            <div class="slider__marker"></div>
+                            <div class="slider__progress"></div>
+                        </div>
+                    </div>
+                </section>
                 <footer class="footer">
                     <a target="_blank" class="footer__link" href="https://github.com/eduardotorresdev/juice">
                         github.com/eduardotorresdev

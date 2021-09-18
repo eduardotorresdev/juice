@@ -1,19 +1,9 @@
 .toolbar
-    display: grid
-    grid-template-columns: 1fr
-    grid-row-gap: 10px
-    position: absolute
-    top: 50%
-    left: 15px
-    background: #c7a3a355
-    padding: 10px
-    border-radius: 10px
-    backdrop-filter: blur(10px)
-    transform: translateY(-50%)
-
-    .btn
-        padding: 12px 15px
-
-.toolbar--right
-    left: auto
-    right: 15px
+    display: flex
+    align-self: flex-end
+    width: 100%
+    background: transparentize($cor-bege-300, 0.6)
+    backdrop-filter: blur(20px)
+    border-radius: 20px
+    padding: 35px
+    margin-top: auto

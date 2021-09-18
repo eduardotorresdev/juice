@@ -1,19 +1,17 @@
 {
     "compilerOptions": {
-        "allowSyntheticDefaultImports": true,
         "noImplicitAny": true,
         "module": "es6",
         "target": "es2019",
         "allowJs": true,
         "moduleResolution": "node",
+        "esModuleInterop": true,
         "noEmit": true,
-        "baseUrl": "./src",
+        "baseUrl": "src",
         "paths": {
-            "*": ["_types/*"]
-        },
+            "@utils": ["utils/index.ts"]
+        }
     },
-    "include": [
-        "./src"
-    ],
-    "files": ["./src/index.ts"]
+    "include": ["src/**/*"],
+    "exclude": ["node_modules"]
 }

@@ -50,10 +50,17 @@ const config = {
         test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
         type: "asset",
       },
+      {
+        test: /\.obj$/i,
+        use: 'raw-loader',
+      },
     ],
   },
   resolve: {
     extensions: [".tsx", ".ts", ".js"],
+    alias: {
+      "@utils": path.resolve(__dirname, 'src/utils'),
+    },
   },
 };
 
