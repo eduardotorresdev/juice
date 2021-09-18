@@ -1,9 +1,9 @@
 .btn
     background-color: $cor-bege-300
     color: $cor-azul-500
-    font-size: 22px
+    font-size: 16px
     border: 0
-    padding: 5px 20px
+    padding: 10px 20px
     border-radius: 10px
     cursor: pointer
     transition: all 150ms ease
@@ -33,9 +33,12 @@
 
 .btn--active 
     @extend .btn--secondary
-    background-color: $cor-azul-500
-    box-shadow: 0 0 20px 5px transparentize($cor-azul-500, 0.3)
+    color: $cor-azul-600
+    background-color: $cor-amarelo-500
+    cursor: pointer
+    pointer-events: none
+    box-shadow: 0 0 20px 5px transparentize($cor-amarelo-500, 0.1)
 
     &:hover
-        background-color: $cor-azul-500
-        color: $cor-cinza-400
+        color: $cor-azul-600
+        background-color: $cor-amarelo-500
