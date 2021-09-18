@@ -8,3 +8,7 @@ import './cameraRotation';
 const canvas = document.querySelector('.canvas');
 canvas.setAttribute('width', window.innerWidth.toString());
 canvas.setAttribute('height', window.innerHeight.toString());
+
+window.onload = () => {
+    document.querySelector('.app').classList.remove('preload');
+};

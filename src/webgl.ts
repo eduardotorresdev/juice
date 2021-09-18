@@ -1,4 +1,4 @@
-import {parseOBJ, img} from '@utils';
+import {parseOBJ, img, sleeper} from '@utils';
 import Metal from '../public/img/texturaMetal.jpg';
 import Espaco from '../public/img/texturaEspaco.jpg';
 import Azul from '../public/img/texturaAzul.jpg';
@@ -143,6 +143,8 @@ async function init(): Promise<any> {
         textura: string,
     ) => {
         if (textura !== currentTextura) {
+            const loading = document.querySelector('.texture__loading');
+            loading.classList.add('texture__loading--show');
             for (const face of faces) {
                 const level = 0;
                 const internalFormat = webgl.RGBA;
@@ -161,6 +163,8 @@ async function init(): Promise<any> {
                 );
                 webgl.generateMipmap(webgl.TEXTURE_CUBE_MAP);
             }
+            await sleeper(1000);
+            loading.classList.remove('texture__loading--show');
             currentTextura = textura;
         }
 
