@@ -13,7 +13,7 @@ const rotationZEl: HTMLInputElement | null = document.querySelector(
     '#camera__rotation-z',
 );
 
-let textura = 'texturaMetal.jpg';
+let textura = 'metal';
 let rotationX = 0;
 let rotationY = 0;
 let rotationZ = 0;
@@ -57,7 +57,7 @@ const texturaButton = document.querySelectorAll('.textura__button');
 
 texturaButton.forEach((button) => {
     button.addEventListener('click', () => {
-        const img = button.getAttribute('data-img');
+        const img = button.getAttribute('data-texture');
 
         textura = img;
         update();

@@ -1,4 +1,7 @@
 import {parseOBJ, img} from '@utils';
+import Metal from '../public/img/texturaMetal.jpg';
+import Espaco from '../public/img/texturaEspaco.jpg';
+import Azul from '../public/img/texturaAzul.jpg';
 /**
  * init
  * @return {WebGLRenderingContext|null}
@@ -48,10 +51,13 @@ async function init(): Promise<any> {
             float fakeLight = dot(u_lightDirection, normal) * 4.5 + .7;
 
             vec3 worldNormal = normalize(v_normal);
-            vec3 eyeToSurfaceDir = normalize(v_worldPosition - u_worldCameraPosition);
+            vec3 eyeToSurfaceDir = normalize(
+                v_worldPosition - u_worldCameraPosition
+            );
             vec3 direction = reflect(eyeToSurfaceDir,worldNormal);
             
-            gl_FragColor = textureCube(u_texture, direction) * vec4(u_diffuse.rgb * fakeLight, u_diffuse.a);
+            gl_FragColor = textureCube(u_texture, direction) *
+                vec4(u_diffuse.rgb * fakeLight, u_diffuse.a);
             ;
         }
     `;
@@ -76,37 +82,22 @@ async function init(): Promise<any> {
         'u_worldCameraPosition',
     );
 
-    const faceInfos = (filename = 'texturaMetal.jpg') => [
-        {
-            target: webgl.TEXTURE_CUBE_MAP_POSITIVE_X,
-            url: `/public/img/${filename}`,
-        },
-        {
-            target: webgl.TEXTURE_CUBE_MAP_NEGATIVE_X,
-            url: `/public/img/${filename}`,
-        },
-        {
-            target: webgl.TEXTURE_CUBE_MAP_POSITIVE_Y,
-            url: `/public/img/${filename}`,
-        },
-        {
-            target: webgl.TEXTURE_CUBE_MAP_NEGATIVE_Y,
-            url: `/public/img/${filename}`,
-        },
-        {
-            target: webgl.TEXTURE_CUBE_MAP_POSITIVE_Z,
-            url: `/public/img/${filename}`,
-        },
-        {
-            target: webgl.TEXTURE_CUBE_MAP_NEGATIVE_Z,
-            url: `/public/img/${filename}`,
-        },
+    const texturas: { [key: string]: string } = {
+        metal: Metal,
+        espaco: Espaco,
+        azul: Azul,
+    };
+
+    const faces = [
+        webgl.TEXTURE_CUBE_MAP_POSITIVE_X,
+        webgl.TEXTURE_CUBE_MAP_NEGATIVE_X,
+        webgl.TEXTURE_CUBE_MAP_POSITIVE_Y,
+        webgl.TEXTURE_CUBE_MAP_NEGATIVE_Y,
+        webgl.TEXTURE_CUBE_MAP_POSITIVE_Z,
+        webgl.TEXTURE_CUBE_MAP_NEGATIVE_Z,
     ];
 
-    faceInfos().forEach((faceInfo) => {
-        const {target, url} = faceInfo;
-
-        // Upload the canvas to the cubemap face.
+    for (const face of faces) {
         const level = 0;
         const internalFormat = webgl.RGBA;
         const width = 256;
@@ -114,9 +105,8 @@ async function init(): Promise<any> {
         const format = webgl.RGBA;
         const type = webgl.UNSIGNED_BYTE;
 
-        // setup each face so it's immediately renderable
         webgl.texImage2D(
-            target,
+            face,
             level,
             internalFormat,
             width,
@@ -127,23 +117,12 @@ async function init(): Promise<any> {
             null,
         );
 
-        // Asynchronously load an image
-        const image = new Image();
-        image.src = url;
-        image.addEventListener('load', function() {
-            // Now that the image has loaded upload it to the texture.
-            webgl.bindTexture(webgl.TEXTURE_CUBE_MAP, texture);
-            webgl.texImage2D(
-                target,
-                level,
-                internalFormat,
-                format,
-                type,
-                image,
-            );
-            webgl.generateMipmap(webgl.TEXTURE_CUBE_MAP);
-        });
-    });
+        const image = await img.addImageProcess(texturas.metal);
+        webgl.bindTexture(webgl.TEXTURE_CUBE_MAP, texture);
+        webgl.texImage2D(face, level, internalFormat, format, type, image);
+        webgl.generateMipmap(webgl.TEXTURE_CUBE_MAP);
+    }
+
     webgl.generateMipmap(webgl.TEXTURE_CUBE_MAP);
     webgl.texParameteri(
         webgl.TEXTURE_CUBE_MAP,
@@ -164,16 +143,16 @@ async function init(): Promise<any> {
         textura: string,
     ) => {
         if (textura !== currentTextura) {
-            for (const faceInfo of faceInfos(textura)) {
+            for (const face of faces) {
                 const level = 0;
                 const internalFormat = webgl.RGBA;
                 const format = webgl.RGBA;
                 const type = webgl.UNSIGNED_BYTE;
 
-                const image = await img.addImageProcess(faceInfo.url);
+                const image = await img.addImageProcess(texturas[textura]);
                 webgl.bindTexture(webgl.TEXTURE_CUBE_MAP, texture);
                 webgl.texImage2D(
-                    faceInfo.target,
+                    face,
                     level,
                     internalFormat,
                     format,
@@ -233,7 +212,6 @@ async function init(): Promise<any> {
         });
         webglUtils.drawBufferInfo(webgl, bufferInfo);
     };
-    setTimeout(() => render(0, 0, 0), 1000);
 
     return {
         webgl,
