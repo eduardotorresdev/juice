@@ -26,7 +26,12 @@ async function init(): Promise<any> {
         varying vec3 v_worldPosition;
         varying vec3 v_normal;
 
+        varying vec3 vertPos;
+
         void main() {
+            vec4 vertPos4 = u_view * a_position;
+            vertPos = vec3(vertPos4) / vertPos4.w;
+
             gl_Position = u_projection * u_view * u_world * a_position;
             v_normal = mat3(u_world) * a_normal;
             v_worldPosition = (u_world * a_position).xyz;
@@ -36,8 +41,14 @@ async function init(): Promise<any> {
     const fragShader = `
         precision highp float;
 
-        varying vec3 v_normal;        
-        uniform vec4 u_diffuse;
+        varying vec3 v_normal;
+        varying vec3 vertPos;       
+        uniform float Ka;
+        uniform float Kd;
+        uniform float Ks;
+        uniform vec3 ambientColor;
+        uniform vec3 diffuseColor;
+        uniform vec3 specularColor;
         uniform vec3 u_lightDirection;
 
         varying vec3 v_worldPosition;
@@ -48,17 +59,28 @@ async function init(): Promise<any> {
 
         void main () {
             vec3 normal = normalize(v_normal);
-            float fakeLight = dot(u_lightDirection, normal) * 4.5 + .7;
+            vec3 L = normalize(u_lightDirection - vertPos);
+            float lambertian = max(dot(normal, L), 0.0);
+            float specular = 0.0;
+            if(lambertian > 0.0) {
+                vec3 R = reflect(-L, normal);
+                vec3 V = normalize(-vertPos);
+                float specAngle = max(dot(R, V), 0.0);
+                specular = pow(specAngle, 1.0);
+            }
 
-            vec3 worldNormal = normalize(v_normal);
             vec3 eyeToSurfaceDir = normalize(
                 v_worldPosition - u_worldCameraPosition
             );
-            vec3 direction = reflect(eyeToSurfaceDir,worldNormal);
-            
-            gl_FragColor = textureCube(u_texture, direction) *
-                vec4(u_diffuse.rgb * fakeLight, u_diffuse.a);
-            ;
+            vec3 direction = reflect(eyeToSurfaceDir, normal);
+            vec3 lights = Ka * ambientColor +
+            Kd * lambertian * diffuseColor +
+            Ks * specular * specularColor;
+
+            // textureCube(u_texture, direction)
+            gl_FragColor = vec4(
+                textureCube(u_texture, direction).rgb * lights, 1.0
+            );
         }
     `;
 
@@ -81,6 +103,23 @@ async function init(): Promise<any> {
         meshProgramInfo.program,
         'u_worldCameraPosition',
     );
+
+    const ambientColorLoc = webgl.getUniformLocation(
+        meshProgramInfo.program,
+        'ambientColor',
+    );
+    const diffuseColorLoc = webgl.getUniformLocation(
+        meshProgramInfo.program,
+        'diffuseColor',
+    );
+    const specularColorLoc = webgl.getUniformLocation(
+        meshProgramInfo.program,
+        'specularColor',
+    );
+
+    const kaLoc = webgl.getUniformLocation(meshProgramInfo.program, 'Ka');
+    const kdLoc = webgl.getUniformLocation(meshProgramInfo.program, 'Kd');
+    const ksLoc = webgl.getUniformLocation(meshProgramInfo.program, 'Ks');
 
     const texturas: { [key: string]: string } = {
         metal: Metal,
@@ -133,6 +172,12 @@ async function init(): Promise<any> {
     const cameraTarget = [0, 0, 0];
     const zNear = 0.5;
     const zFar = 2000;
+    const ambientColor = [0, 0, 0];
+    const diffuseColor = [1, 1, 1];
+    const specularColor = [1, 1, 1];
+    const kaVal = 1.0;
+    const kdVal = 1.0;
+    const ksVal = 1.0;
 
     let currentTextura = '';
 
@@ -202,7 +247,7 @@ async function init(): Promise<any> {
         worldMatrix = m4.multiply(worldMatrix, m4.zRotation(rotationZ));
 
         const sharedUniforms = {
-            u_lightDirection: m4.normalize([-50, 50, 50]),
+            u_lightDirection: [0, 100, 50],
             u_view: view,
             u_projection: projection,
         };
@@ -212,9 +257,14 @@ async function init(): Promise<any> {
         webgl.uniform1i(textureLocation, 0);
         webglUtils.setUniforms(meshProgramInfo, sharedUniforms);
         webglUtils.setBuffersAndAttributes(webgl, meshProgramInfo, bufferInfo);
+        webgl.uniform3fv(ambientColorLoc, ambientColor);
+        webgl.uniform3fv(diffuseColorLoc, diffuseColor);
+        webgl.uniform3fv(specularColorLoc, specularColor);
+        webgl.uniform1f(kaLoc, kaVal);
+        webgl.uniform1f(kdLoc, kdVal);
+        webgl.uniform1f(ksLoc, ksVal);
         webglUtils.setUniforms(meshProgramInfo, {
             u_world: worldMatrix,
-            u_diffuse: [1, 1, 1, 1],
         });
         webglUtils.drawBufferInfo(webgl, bufferInfo);
     };
