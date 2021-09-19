@@ -23,7 +23,7 @@ async function init(): Promise<Init> {
     if (!element) return null;
 
     const webgl = element.getContext('webgl');
-    const {default: chairObj} = await require('./assets/awp.obj');
+    const {default: chairObj} = await require('./objects/awp.obj');
     const chair = parseOBJ(chairObj);
 
     const vertexShader = `
