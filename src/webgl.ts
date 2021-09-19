@@ -1,12 +1,23 @@
-import {parseOBJ, img, sleeper, end} from '@utils';
+import {parseOBJ, img, sleeper, end, m4, webglUtils} from '@utils';
 import Metal from '../public/img/texturaMetal.jpg';
 import Espaco from '../public/img/texturaEspaco.jpg';
 import Azul from '../public/img/texturaAzul.jpg';
+
+type Init = {
+    webgl: WebGLRenderingContext;
+    render: (
+        rotationX: number,
+        rotationY: number,
+        rotationZ: number,
+        textura: string
+    ) => Promise<void>;
+};
+
 /**
  * init
- * @return {WebGLRenderingContext|null}
+ * @return {Init|null}
  */
-async function init(): Promise<any> {
+async function init(): Promise<Init> {
     const element: HTMLCanvasElement | null = document.querySelector('.canvas');
 
     if (!element) return null;
@@ -159,10 +170,8 @@ async function init(): Promise<any> {
         const image = await img.addImageProcess(texturas.metal);
         webgl.bindTexture(webgl.TEXTURE_CUBE_MAP, texture);
         webgl.texImage2D(face, level, internalFormat, format, type, image);
-        webgl.generateMipmap(webgl.TEXTURE_CUBE_MAP);
     }
 
-    webgl.generateMipmap(webgl.TEXTURE_CUBE_MAP);
     webgl.texParameteri(
         webgl.TEXTURE_CUBE_MAP,
         webgl.TEXTURE_MIN_FILTER,
@@ -173,8 +182,8 @@ async function init(): Promise<any> {
     const zNear = 0.5;
     const zFar = 2000;
     const ambientColor = [0, 0, 0];
-    const diffuseColor = [1, 1, 1];
-    const specularColor = [1, 1, 1];
+    const diffuseColor = [5, 5, 5];
+    const specularColor = [0, 0, 0];
     const kaVal = 1.0;
     const kdVal = 1.0;
     const ksVal = 1.0;

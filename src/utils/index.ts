@@ -1,6 +1,8 @@
 export * from './canvas';
 export * from './math';
 export * from './img';
+export * from './m4';
+export * from './webgl';
 
 export const sleeper = (ms: number) => {
     return new Promise((resolve) => setTimeout(() => resolve(true), ms));
