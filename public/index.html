@@ -33,7 +33,7 @@
                     <h1 class="title">Juice</h1>
                 </header>
                 <section class="toolbar">
-                    <section class="rotation">
+                    <section class="rotation toolbar__list">
                         <div class="form__group">
                             <label>Rotação X da câmera</label>
                             <div class="slider">
@@ -54,6 +54,32 @@
                             <label>Rotação Z da câmera</label>
                             <div class="slider">
                                 <input type="range" id="camera__rotation-z" class="slider__input" min="0" max="360" value="0" autocomplete="off">
+                                <div class="slider__marker"></div>
+                                <div class="slider__progress"></div>
+                            </div>
+                        </div>
+                    </section>
+                    <section class="position toolbar__list">
+                        <div class="form__group">
+                            <label>Posição X da câmera</label>
+                            <div class="slider">
+                                <input type="range" id="camera__position-x" class="slider__input" min="-500" max="500" value="0" autocomplete="off">
+                                <div class="slider__marker"></div>
+                                <div class="slider__progress"></div>
+                            </div>
+                        </div>
+                        <div class="form__group">
+                            <label>Posição Y da câmera</label>
+                            <div class="slider">
+                                <input type="range" id="camera__position-y" class="slider__input" min="-50" max="50" value="0" autocomplete="off">
+                                <div class="slider__marker"></div>
+                                <div class="slider__progress"></div>
+                            </div>
+                        </div>
+                        <div class="form__group">
+                            <label>Posição Z da câmera</label>
+                            <div class="slider">
+                                <input type="range" id="camera__position-z" class="slider__input" min="-500" max="500" value="0" autocomplete="off">
                                 <div class="slider__marker"></div>
                                 <div class="slider__progress"></div>
                             </div>

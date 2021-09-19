@@ -1,9 +1,12 @@
 import './sass/main.sass';
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
-import './webgl';
+import {store} from './store';
+import {webgl} from './webgl';
 import './slider';
+import './cameraPosition';
 import './cameraRotation';
+import './texture';
 
 const canvas = document.querySelector('.canvas');
 canvas.setAttribute('width', window.innerWidth.toString());
@@ -12,3 +15,8 @@ canvas.setAttribute('height', window.innerHeight.toString());
 window.onload = () => {
     document.querySelector('.app').classList.remove('preload');
 };
+
+store.subscribe(async () => {
+    const instance = await webgl;
+    instance.render();
+});

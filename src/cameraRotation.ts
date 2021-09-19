@@ -1,5 +1,6 @@
-import {degToRad} from '@utils';
-import {webgl} from './webgl';
+import {degToRad, inputEvent} from '@utils';
+import {rotationActions} from './actions';
+import {store} from './store';
 
 const rotationXEl: HTMLInputElement | null = document.querySelector(
     '#camera__rotation-x',
@@ -13,57 +14,79 @@ const rotationZEl: HTMLInputElement | null = document.querySelector(
     '#camera__rotation-z',
 );
 
-let textura = 'metal';
-let rotationX = 0;
-let rotationY = 0;
-let rotationZ = 0;
-
-const update = async () => {
-    const instance = await webgl;
-    instance.render(rotationX, rotationY, rotationZ, textura);
-};
-
-
 rotationXEl?.addEventListener('input', async () => {
     const value = parseInt(rotationXEl.value);
 
     if (Number.isInteger(value)) {
-        rotationX = degToRad(value);
-        update();
+        store.dispatch(
+            rotationActions.setRotation({
+                x: degToRad(value),
+            }),
+        );
     }
 });
+
+rotationXEl?.addEventListener('contextmenu', async (e) => {
+    e.preventDefault();
+
+    store.dispatch(
+        rotationActions.setRotation({
+            x: 0,
+        }),
+    );
+
+    rotationXEl.value = '0';
+    rotationXEl.dispatchEvent(inputEvent);
+});
+
 
 rotationYEl?.addEventListener('input', async () => {
     const value = parseInt(rotationYEl.value);
 
     if (Number.isInteger(value)) {
-        rotationY = degToRad(value);
-        update();
+        store.dispatch(
+            rotationActions.setRotation({
+                y: degToRad(value),
+            }),
+        );
     }
+});
+
+rotationYEl?.addEventListener('contextmenu', async (e) => {
+    e.preventDefault();
+
+    store.dispatch(
+        rotationActions.setRotation({
+            y: 0,
+        }),
+    );
+
+    rotationYEl.value = '0';
+    rotationYEl.dispatchEvent(inputEvent);
 });
 
 rotationZEl?.addEventListener('input', async () => {
     const value = parseInt(rotationZEl.value);
 
     if (Number.isInteger(value)) {
-        rotationZ = degToRad(value);
-        update();
+        store.dispatch(
+            rotationActions.setRotation({
+                z: degToRad(value),
+            }),
+        );
     }
 });
 
-update();
+rotationZEl?.addEventListener('contextmenu', async (e) => {
+    e.preventDefault();
 
-const texturaButton = document.querySelectorAll('.textura__button');
+    store.dispatch(
+        rotationActions.setRotation({
+            z: 0,
+        }),
+    );
 
-texturaButton.forEach((button) => {
-    button.addEventListener('click', () => {
-        const img = button.getAttribute('data-texture');
-
-        textura = img;
-        update();
-        texturaButton.forEach((b) => {
-            b.classList.remove('btn--active');
-        });
-        button.classList.add('btn--active');
-    });
+    rotationZEl.value = '0';
+    rotationZEl.dispatchEvent(inputEvent);
 });
+

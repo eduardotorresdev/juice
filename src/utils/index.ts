@@ -15,3 +15,8 @@ export const end = (startTime: Date) => {
 
     return Math.round(timeDiff);
 };
+
+export const inputEvent = new Event('input', {
+    bubbles: true,
+    cancelable: true,
+});

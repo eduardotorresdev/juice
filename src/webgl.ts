@@ -2,15 +2,11 @@ import {parseOBJ, img, sleeper, end, m4, webglUtils} from '@utils';
 import Metal from '../public/img/texturaMetal.jpg';
 import Espaco from '../public/img/texturaEspaco.jpg';
 import Azul from '../public/img/texturaAzul.jpg';
+import {store} from './store';
 
 type Init = {
     webgl: WebGLRenderingContext;
-    render: (
-        rotationX: number,
-        rotationY: number,
-        rotationZ: number,
-        textura: string
-    ) => Promise<void>;
+    render: () => Promise<void>;
 };
 
 /**
@@ -190,13 +186,10 @@ async function init(): Promise<Init> {
 
     let currentTextura = '';
 
-    const render = async (
-        rotationX: number,
-        rotationY: number,
-        rotationZ: number,
-        textura: string,
-    ) => {
-        if (textura !== currentTextura) {
+    const render = async () => {
+        const config = store.getState();
+
+        if (config.texture.name !== currentTextura) {
             const loading = document.querySelector('.texture__loading');
             loading.classList.add('texture__loading--show');
             const startTime = new Date();
@@ -206,7 +199,9 @@ async function init(): Promise<Init> {
                 const format = webgl.RGBA;
                 const type = webgl.UNSIGNED_BYTE;
 
-                const image = await img.addImageProcess(texturas[textura]);
+                const image = await img.addImageProcess(
+                    texturas[config.texture.name],
+                );
                 webgl.bindTexture(webgl.TEXTURE_CUBE_MAP, texture);
                 webgl.texImage2D(
                     face,
@@ -221,7 +216,7 @@ async function init(): Promise<Init> {
             const endTime = end(startTime);
             if (endTime < 1) await sleeper((0.5 - endTime) * 1000);
             loading.classList.remove('texture__loading--show');
-            currentTextura = textura;
+            currentTextura = config.texture.name;
         }
 
         webglUtils.resizeCanvasToDisplaySize(webgl.canvas);
@@ -238,8 +233,11 @@ async function init(): Promise<Init> {
             zFar,
         );
 
-        const cameraPosition = [0, 0, 60];
-
+        const cameraPosition = [
+            config.camera.y,
+            config.camera.x,
+            60 + config.camera.z,
+        ];
         const up = [1, 0, 1];
         // Compute the camera's matrix using look at.
         const cameraMatrix = m4.lookAt(cameraPosition, cameraTarget, up);
@@ -251,9 +249,12 @@ async function init(): Promise<Init> {
             cameraMatrix,
             m4.translate(view, 0, 17, 0),
         );
-        worldMatrix = m4.multiply(worldMatrix, m4.xRotation(rotationX));
-        worldMatrix = m4.multiply(worldMatrix, m4.yRotation(rotationY + 1.57));
-        worldMatrix = m4.multiply(worldMatrix, m4.zRotation(rotationZ));
+        worldMatrix = m4.multiply(worldMatrix, m4.xRotation(config.rotation.x));
+        worldMatrix = m4.multiply(
+            worldMatrix,
+            m4.yRotation(config.rotation.y + 1.57),
+        );
+        worldMatrix = m4.multiply(worldMatrix, m4.zRotation(config.rotation.z));
 
         const sharedUniforms = {
             u_lightDirection: [0, 100, 50],
@@ -277,6 +278,8 @@ async function init(): Promise<Init> {
         });
         webglUtils.drawBufferInfo(webgl, bufferInfo);
     };
+
+    await render();
 
     return {
         webgl,
