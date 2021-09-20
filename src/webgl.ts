@@ -84,7 +84,6 @@ async function init(): Promise<Init> {
             Kd * lambertian * diffuseColor +
             Ks * specular * specularColor;
 
-            // textureCube(u_texture, direction)
             gl_FragColor = vec4(
                 textureCube(u_texture, direction).rgb * lights, 1.0
             );
