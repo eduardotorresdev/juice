@@ -59,7 +59,7 @@
                             </div>
                         </div>
                     </section>
-                    <section class="position toolbar__list">
+                    <section class="camera__position toolbar__list">
                         <div class="form__group">
                             <label>Posição X da câmera</label>
                             <div class="slider">
@@ -86,10 +86,129 @@
                         </div>
                     </section>
                     <section class="texture">
-                        <h3 class="texture__title">Texturas</h3>
+                        <h3 class="toolbar__title">Texturas</h3>
                         <button class="btn btn--secondary btn--active textura__button" data-texture="metal">Metal</button>
                         <button class="btn btn--secondary textura__button" data-texture="espaco">Espaço</button>
                         <button class="btn btn--secondary textura__button" data-texture="azul">Azul</button>
+                    </section>
+                    <section class="light__position toolbar__list">
+                        <div class="form__group">
+                            <label>Posição X da luz</label>
+                            <div class="slider">
+                                <input type="range" id="light__position-x" class="slider__input" min="-200" max="200" value="0" autocomplete="off">
+                                <div class="slider__marker"></div>
+                                <div class="slider__progress"></div>
+                            </div>
+                        </div>
+                        <div class="form__group">
+                            <label>Posição Y da luz</label>
+                            <div class="slider">
+                                <input type="range" id="light__position-y" class="slider__input" min="-200" max="200" value="0" autocomplete="off">
+                                <div class="slider__marker"></div>
+                                <div class="slider__progress"></div>
+                            </div>
+                        </div>
+                        <div class="form__group">
+                            <label>Posição Z da luz</label>
+                            <div class="slider">
+                                <input type="range" id="light__position-z" class="slider__input" min="-200" max="200" value="0" autocomplete="off">
+                                <div class="slider__marker"></div>
+                                <div class="slider__progress"></div>
+                            </div>
+                        </div>
+                    </section>
+                    <section class="light toolbar__list">
+                        <h3 class="toolbar__title">Luz ambiente</h3>
+                        <div class="form__group">
+                            <div class="slider slider--yellow">
+                                <input type="range" id="ambient__amount" class="slider__input" min="0" max="10" value="5" autocomplete="off">
+                                <div class="slider__marker"></div>
+                                <div class="slider__progress"></div>
+                            </div>
+                        </div>
+                        <div class="form__group">
+                            <div class="slider slider--red">
+                                <input type="range" id="ambient__red" class="slider__input" min="0" max="15" value="7" autocomplete="off">
+                                <div class="slider__marker"></div>
+                                <div class="slider__progress"></div>
+                            </div>
+                        </div>
+                        <div class="form__group">
+                            <div class="slider slider--green">
+                                <input type="range" id="ambient__green" class="slider__input" min="0" max="15" value="7" autocomplete="off">
+                                <div class="slider__marker"></div>
+                                <div class="slider__progress"></div>
+                            </div>
+                        </div>
+                        <div class="form__group">
+                            <div class="slider slider--blue">
+                                <input type="range" id="ambient__blue" class="slider__input" min="0" max="15" value="7" autocomplete="off">
+                                <div class="slider__marker"></div>
+                                <div class="slider__progress"></div>
+                            </div>
+                        </div>
+                    </section>
+                    <section class="light toolbar__list">
+                        <h3 class="toolbar__title">Luz difusa</h3>
+                        <div class="form__group">
+                            <div class="slider slider--yellow">
+                                <input type="range" id="diffuse__amount" class="slider__input" min="0" max="10" value="5" autocomplete="off">
+                                <div class="slider__marker"></div>
+                                <div class="slider__progress"></div>
+                            </div>
+                        </div>
+                        <div class="form__group">
+                            <div class="slider slider--red">
+                                <input type="range" id="diffuse__red" class="slider__input" min="0" max="15" value="7" autocomplete="off">
+                                <div class="slider__marker"></div>
+                                <div class="slider__progress"></div>
+                            </div>
+                        </div>
+                        <div class="form__group">
+                            <div class="slider slider--green">
+                                <input type="range" id="diffuse__green" class="slider__input" min="0" max="15" value="7" autocomplete="off">
+                                <div class="slider__marker"></div>
+                                <div class="slider__progress"></div>
+                            </div>
+                        </div>
+                        <div class="form__group">
+                            <div class="slider slider--blue">
+                                <input type="range" id="diffuse__blue" class="slider__input" min="0" max="15" value="7" autocomplete="off">
+                                <div class="slider__marker"></div>
+                                <div class="slider__progress"></div>
+                            </div>
+                        </div>
+                    </section>
+                    <section class="light toolbar__list">
+                        <h3 class="toolbar__title">Luz especular</h3>
+                        <div class="form__group">
+                            <div class="slider slider--yellow">
+                                <input type="range" id="specular__amount" class="slider__input" min="0" max="10" value="5" autocomplete="off">
+                                <div class="slider__marker"></div>
+                                <div class="slider__progress"></div>
+                            </div>
+                        </div>
+                        <div class="form__group">
+                            <div class="slider slider--red">
+                                <input type="range" id="specular__red" class="slider__input" min="0" max="15" value="7" autocomplete="off">
+                                <div class="slider__marker"></div>
+                                <div class="slider__progress"></div>
+                            </div>
+                        </div>
+                        <div class="form__group">
+                            <div class="slider slider--green">
+                                <input type="range" id="specular__green" class="slider__input" min="0" max="15" value="7" autocomplete="off">
+                                <div class="slider__marker"></div>
+                                <div class="slider__progress"></div>
+                            </div>
+                        </div>
+                        <div class="form__group">
+                            <div class="slider slider--blue">
+                                <input type="range" id="specular__blue" class="slider__input" min="0" max="15" value="7" autocomplete="off">
+                                <div class="slider__marker"></div>
+                                <div class="slider__progress"></div>
+                            </div>
+                        </div>
                     </section>
                 </section>
                 <footer class="footer">

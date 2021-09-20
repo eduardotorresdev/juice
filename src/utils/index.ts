@@ -20,3 +20,8 @@ export const inputEvent = new Event('input', {
     bubbles: true,
     cancelable: true,
 });
+
+export const isNumeric = (str: string) => {
+    if (typeof str != 'string') return false;
+    return !isNaN(parseInt(str)) && !isNaN(parseFloat(str));
+};

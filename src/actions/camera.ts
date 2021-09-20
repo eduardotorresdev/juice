@@ -7,7 +7,6 @@ export const cameraActions = {
      * @return {CameraActionAction}
      */
     setPosition(props: { x?: number; y?: number; z?: number }) {
-        console.log(props);
         return {
             type: cameraTypes.SET_POSITION,
             ...props,

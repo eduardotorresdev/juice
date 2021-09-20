@@ -11,15 +11,15 @@ export interface CameraState extends RotationState {}
 
 export interface LightState extends RotationState {
     ambient: {
-        amount: number;
-        color: [number, number, number]
-    };
+        amount: number,
+        colors: number[]
+    },
     diffuse: {
-        amount: number;
-        color: [number, number, number]
-    };
+        amount: number,
+        colors: number[]
+    },
     specular: {
-        amount: number;
-        color: [number, number, number]
-    };
+        amount: number,
+        colors: number[]
+    },
 }

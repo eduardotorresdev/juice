@@ -1,3 +1,3 @@
 export const cameraTypes = {
-    SET_POSITION: 'SET_POSITION',
+    SET_POSITION: 'CAMERA_SET_POSITION',
 };

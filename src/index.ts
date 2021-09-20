@@ -7,6 +7,10 @@ import './slider';
 import './cameraPosition';
 import './cameraRotation';
 import './texture';
+import './lightPosition';
+import './ambientLight';
+import './diffuseLight';
+import './specularLight';
 
 const canvas = document.querySelector('.canvas');
 canvas.setAttribute('width', window.innerWidth.toString());

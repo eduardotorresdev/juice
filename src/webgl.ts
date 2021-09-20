@@ -177,12 +177,6 @@ async function init(): Promise<Init> {
     const cameraTarget = [0, 0, 0];
     const zNear = 0.5;
     const zFar = 2000;
-    const ambientColor = [0, 0, 0];
-    const diffuseColor = [5, 5, 5];
-    const specularColor = [0, 0, 0];
-    const kaVal = 1.0;
-    const kdVal = 1.0;
-    const ksVal = 1.0;
 
     let currentTextura = '';
 
@@ -257,7 +251,7 @@ async function init(): Promise<Init> {
         worldMatrix = m4.multiply(worldMatrix, m4.zRotation(config.rotation.z));
 
         const sharedUniforms = {
-            u_lightDirection: [0, 100, 50],
+            u_lightDirection: [config.light.y, config.light.x, config.light.z],
             u_view: view,
             u_projection: projection,
         };
@@ -267,12 +261,12 @@ async function init(): Promise<Init> {
         webgl.uniform1i(textureLocation, 0);
         webglUtils.setUniforms(meshProgramInfo, sharedUniforms);
         webglUtils.setBuffersAndAttributes(webgl, meshProgramInfo, bufferInfo);
-        webgl.uniform3fv(ambientColorLoc, ambientColor);
-        webgl.uniform3fv(diffuseColorLoc, diffuseColor);
-        webgl.uniform3fv(specularColorLoc, specularColor);
-        webgl.uniform1f(kaLoc, kaVal);
-        webgl.uniform1f(kdLoc, kdVal);
-        webgl.uniform1f(ksLoc, ksVal);
+        webgl.uniform3fv(ambientColorLoc, config.light.ambient.colors);
+        webgl.uniform3fv(diffuseColorLoc, config.light.diffuse.colors);
+        webgl.uniform3fv(specularColorLoc, config.light.specular.colors);
+        webgl.uniform1f(kaLoc, config.light.ambient.amount);
+        webgl.uniform1f(kdLoc, config.light.diffuse.amount);
+        webgl.uniform1f(ksLoc, config.light.specular.amount);
         webglUtils.setUniforms(meshProgramInfo, {
             u_world: worldMatrix,
         });

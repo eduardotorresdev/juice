@@ -8,15 +8,15 @@ interface LightAction {
     z: number;
     ambient: {
         amount: number;
-        color: [number, number, number]
+        colors: number[];
     };
     diffuse: {
         amount: number;
-        color: [number, number, number]
+        colors: number[];
     };
     specular: {
         amount: number;
-        color: [number, number, number]
+        colors: number[];
     };
 }
 
@@ -25,33 +25,53 @@ const initialState: LightState = {
     y: 0,
     z: 0,
     ambient: {
-        amount: 1,
-        color: [1, 1, 1],
+        amount: 2,
+        colors: [1, 1, 1],
     },
     diffuse: {
-        amount: 1,
-        color: [1, 1, 1],
+        amount: 2,
+        colors: [1, 1, 1],
     },
     specular: {
-        amount: 1,
-        color: [1, 1, 1],
+        amount: 2,
+        colors: [1, 1, 1],
     },
 };
 
 const lightReducer = (state = initialState, action: LightAction) => {
     switch (action.type) {
-    case lightTypes.CHANGE_POSITION:
+    case lightTypes.SET_POSITION:
+        // eslint-disable-next-line no-unused-vars
+        const {type, ...newState} = action;
+
         return {
-            x: action.x,
-            y: action.y,
-            z: action.z,
+            ...state,
+            ...newState,
         };
     case lightTypes.CHANGE_AMBIENT_LIGHT:
-        return action.ambient;
+        return {
+            ...state,
+            ambient: {
+                amount: action.ambient.amount / 5,
+                colors: action.ambient.colors.map((color) => color / 7),
+            },
+        };
     case lightTypes.CHANGE_DIFFUSE_LIGHT:
-        return action.diffuse;
+        return {
+            ...state,
+            diffuse: {
+                amount: action.diffuse.amount / 5,
+                colors: action.diffuse.colors.map((color) => color / 7),
+            },
+        };
     case lightTypes.CHANGE_SPECULAR_LIGHT:
-        return action.specular;
+        return {
+            ...state,
+            specular: {
+                amount: action.specular.amount / 5,
+                colors: action.specular.colors.map((color) => color / 7),
+            },
+        };
     default:
         return state;
     }
